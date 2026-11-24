@@ -1,14 +1,21 @@
 # Iron Mind SDK · 模块开发工具
 
-做战役模块时用的工具，**不属于游戏**。游戏本体（引擎 + 客户端）在 [`../iron-mind`](../iron-mind)，
-里面对作者有用的只有两份东西：模块格式规范（`content/README.md`）和两个官方案例。
+> 给「钢心 / Iron Mind」写战役模块用的工具：`imdev` 开发循环（改完存盘就重载）与零警告脚手架。
+> 不含任何引擎代码——它只通过引擎的公开 HTTP 接口驱动内核。
+
+[![license: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
+![node](https://img.shields.io/badge/node-%E2%89%A5%2018-3c873a)
+
+做战役模块时用的工具，**不属于游戏**。游戏本体（引擎 + 客户端）在 [iron-mind](https://github.com/Vladivostok1017/iron-mind)，
+里面对作者有用的只有两份东西：模块格式规范（[`content/README.md`](https://github.com/Vladivostok1017/iron-mind/blob/main/content/README.md)）和官方案例
+（[nanxun-1938](https://github.com/Vladivostok1017/nanxun-1938)、引擎自带的两个小模块）。
 
 ## 为什么单独一个仓库
 
 | | 放哪 | 理由 |
 |---|---|---|
-| tick / 补给 / 战斗 / 将领 / HTTP / 前端 / 安装包 | `iron-mind` | 玩家装的是这个，出厂就必须干净 |
-| 模块格式规范、校验器、迁移器 | `iron-mind` | **规范必须和校验代码住在一起**，否则文档和实现必然漂移 |
+| tick / 补给 / 战斗 / 将领 / HTTP / 前端 / 安装包 | [`iron-mind`](https://github.com/Vladivostok1017/iron-mind) | 玩家装的是这个，出厂就必须干净 |
+| 模块格式规范、校验器、迁移器 | 同上 | **规范必须和校验代码住在一起**，否则文档和实现必然漂移 |
 | 脚手架、模板、开发循环、将来的可视化编辑器 | **本仓库** | 作者工具跟着工具链走，不该被引擎版本绑死，也不该混进玩家的安装包 |
 
 一句话：**引擎里不许有开发行为，SDK 里不许有引擎逻辑。**
