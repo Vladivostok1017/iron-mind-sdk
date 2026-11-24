@@ -116,10 +116,23 @@ async function main() {
       console.error(`引擎还没编译：${exe}\n先在引擎目录跑：cargo build --release -p sim-server`);
       process.exit(1);
     }
-    const child = spawn(exe, ["--port", String(port)], { stdio: "ignore", env: process.env });
+    // cwd 必须是引擎目录：引擎默认的模块根是**相对路径** content/scenarios，
+    // 在别处启动会"可用模块 0 个"然后加载失败退出。别指望作者踩一次再学会。
+    const child = spawn(exe, ["--port", String(port)], {
+      cwd: engine,
+      stdio: ["ignore", "pipe", "pipe"],
+      env: process.env,
+    });
+    let logs = "";
+    child.stdout.on("data", (b) => (logs += b.toString()));
+    child.stderr.on("data", (b) => (logs += b.toString()));
     try {
       await waitReady(port, 20000);
       await check(port);
+    } catch (e) {
+      console.error(`\n[自检失败] ${e.message}`);
+      if (logs.trim()) console.error("内核输出：\n" + logs.trim());
+      process.exitCode = 2;
     } finally {
       child.kill();
     }
@@ -155,7 +168,9 @@ async function main() {
   console.log(`页面：http://127.0.0.1:${port}/`);
   console.log("改完存盘即重载；Ctrl+C 退出。\n");
 
+  // 同上：cwd 一定是引擎目录，否则引擎的默认模块根（相对路径）找不到。
   const child = spawn(exe, ["--module", moduleDir, "--port", String(port)], {
+    cwd: engine,
     stdio: "inherit",
     env,
   });
