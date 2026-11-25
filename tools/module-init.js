@@ -157,9 +157,17 @@ const moduleJson = {
   version: "0.1.0",
   author: "你的名字",
   description: "由 module-init.js 生成的演示模块。改 map.json / oob.json 里的占位数据即可开始。",
-  engine: { min: "0.10.0" },
+  engine: { min: "1.1.0" },
   content_schema: 1,
+  // 阵营是内容：这两个名字随便起，引擎内部只认 A/B。
+  // 第 1 个 = A 方，第 2 个 = B 方；map/oob 里引用的是这里的 id。
+  sides: [
+    { id: "cn", name: "守军" },
+    { id: "jp", name: "进攻军" },
+  ],
   playable_side: "cn",
+  // 想两边都能玩就打开这一行：首页会多出一个"作为…"按钮，AI 替你对面指挥。
+  // playable_sides: ["cn", "jp"],
   scale: "theater",
   domains: ["land"],
   hq: {
